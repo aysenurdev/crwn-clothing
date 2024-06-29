@@ -8,10 +8,6 @@ import {
     setDoc,
 } from 'firebase/firestore'
 
-
-
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyA5cJsiLko6ht45ng-wREVwPuAyyGawxZ4",
   authDomain: "crwn-clothing-db-7c702.firebaseapp.com",
@@ -24,14 +20,18 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebasApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-  provider.setCustomParameters({
+  googleProvider.setCustomParameters({
     prompt: "select_account"
   });
 
   export const auth = getAuth();
-  export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+  export const signInWithGooglePopup = () => signInWithPopup(auth, 
+    googleProvider);
+
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, 
+    googleProvider);
 
   export const db = getFirestore();
 
@@ -39,11 +39,8 @@ const provider = new GoogleAuthProvider();
     const userDocRef = doc(db, 'users', userAuth.uid);
 
 
-     console.log(userDocRef);
-
      const userSnapshot = await getDoc (userDocRef)
-     console.log(userSnapshot);
-     console.log(userSnapshot.exists());
+    
 
      if(!userSnapshot.exists()){
         const { displayName, email } = userAuth;
